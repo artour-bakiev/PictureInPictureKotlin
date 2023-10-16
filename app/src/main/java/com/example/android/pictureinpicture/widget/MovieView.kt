@@ -89,7 +89,7 @@ class MovieView @JvmOverloads constructor(
     private val shade: View
     private val fastForward: ImageButton
     private val fastRewind: ImageButton
-    private val minimize: ImageButton
+    private val minimize: ImageButton?
 
     /** This plays the video. This will be null when no video is set.  */
     internal var mediaPlayer: MediaPlayer? = null
@@ -158,7 +158,7 @@ class MovieView @JvmOverloads constructor(
         toggle.setOnClickListener(listener)
         fastForward.setOnClickListener(listener)
         fastRewind.setOnClickListener(listener)
-        minimize.setOnClickListener(listener)
+        minimize?.setOnClickListener(listener)
 
         // Prepare video playback
         surfaceView.holder.addCallback(object : SurfaceHolder.Callback {
@@ -281,7 +281,7 @@ class MovieView @JvmOverloads constructor(
         toggle.visibility = View.VISIBLE
         fastForward.visibility = View.VISIBLE
         fastRewind.visibility = View.VISIBLE
-        minimize.visibility = View.VISIBLE
+        minimize?.visibility = View.VISIBLE
     }
 
     /**
@@ -293,7 +293,7 @@ class MovieView @JvmOverloads constructor(
         toggle.visibility = View.INVISIBLE
         fastForward.visibility = View.INVISIBLE
         fastRewind.visibility = View.INVISIBLE
-        minimize.visibility = View.INVISIBLE
+        minimize?.visibility = View.INVISIBLE
     }
 
     /**
@@ -361,7 +361,11 @@ class MovieView @JvmOverloads constructor(
             player.reset()
             try {
                 resources.openRawResourceFd(videoResourceId).use { fd ->
-                    player.setDataSource(fd)
+                    if (fd.declaredLength < 0) {
+                        player.setDataSource(fd.fileDescriptor)
+                    } else {
+                        player.setDataSource(fd.fileDescriptor, fd.startOffset, fd.declaredLength)
+                    }
                     player.setOnPreparedListener { mediaPlayer ->
                         // Adjust the aspect ratio of this view
                         requestLayout()

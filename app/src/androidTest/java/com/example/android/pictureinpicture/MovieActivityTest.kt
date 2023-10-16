@@ -16,7 +16,9 @@
 
 package com.example.android.pictureinpicture
 
+import android.annotation.TargetApi
 import android.content.pm.ActivityInfo
+import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
@@ -52,6 +54,7 @@ class MovieActivityTest {
     @Rule @JvmField
     val rule = ActivityScenarioRule(MovieActivity::class.java)
 
+    @TargetApi(Build.VERSION_CODES.N)
     @Test
     fun movie_playingOnPip() {
         // The movie should be playing on start

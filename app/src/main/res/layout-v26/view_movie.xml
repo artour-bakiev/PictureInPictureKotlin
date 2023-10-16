@@ -62,4 +62,16 @@
         android:src="@drawable/ic_fast_forward_64dp"
         android:visibility="invisible"/>
 
+    <ImageButton
+        android:id="@+id/minimize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/minimize"
+        android:padding="16dp"
+        android:src="@drawable/ic_minimize_24dp"
+        android:visibility="invisible"/>
+
 </merge>
