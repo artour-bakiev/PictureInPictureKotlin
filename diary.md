@@ -94,3 +94,21 @@ We can replace `MediaPlayer::setDataSource(AssetFileDescriptor)` with the platfo
 
 We don't have to re-implement `Icon::createWithResource` since it will be used only in classes targeting API 24 and
 above.
+
+# Task 2 - Unit tests
+The project already has some tests for MainActivity and MovieActivity, however none for the MainViewModel. Please add
+some that you would think are appropriate and include any app changes that may be needed. Add any libraries that you
+would like to be able to achieve this task.
+
+We are looking for how changes to support unit tests are made, as well as choice of things to test.
+
+## Solution
+
+The solution is pretty straight forward. There are a few key methods to test - constructor, `startOrPause` and `clear`
+as well as the exposed `LiveData` objects - `started` and `time`.
+
+For testing purposes the following changes were made:
+
+- `uptimeMillis` closure is now provided as the injection parameter
+- `timeLong` exposed as `LiveData<Long>` property with `@VisibleForTesting` annotation
+
